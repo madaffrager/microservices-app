@@ -1,6 +1,8 @@
-package com.github.madaffrager;
+package com.github.madaffrager.notification;
 
 import com.github.madaffrager.clients.notification.NotificationRequest;
+import com.github.madaffrager.notification.Notification;
+import com.github.madaffrager.notification.NotificationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

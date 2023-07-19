@@ -1,4 +1,4 @@
-package com.github.madaffrager;
+package com.github.madaffrager.notification;
 
 import com.github.madaffrager.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;

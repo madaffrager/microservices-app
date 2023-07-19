@@ -1,5 +1,6 @@
-package com.github.madaffrager;
+package com.github.madaffrager.customer;
 
+import com.github.madaffrager.amqp.RabbitMQMessageProducer;
 import com.github.madaffrager.clients.fraud.FraudCheckResponse;
 import com.github.madaffrager.clients.fraud.FraudClient;
 import com.github.madaffrager.clients.notification.NotificationClient;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     public void registerCustomer(CustomerRegistrationRequest customerRequest) {
         Customer customer = Customer.builder()
@@ -27,12 +28,16 @@ public class CustomerService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("Fraudster");
         }
-        notificationClient.sendNotification(new NotificationRequest(
+        NotificationRequest notificationRequest = new NotificationRequest(
                 customer.getId(),
                 customer.getEmail(),
                 String.format("Hi %s, welcome to Madaffrager...",
-                        customer.getFirstName())));
-
+                        customer.getFirstName()));
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+                );
 
     }
 }

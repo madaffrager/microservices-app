@@ -1,4 +1,4 @@
-package com.github.madaffrager;
+package com.github.madaffrager.customer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
