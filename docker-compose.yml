@@ -40,8 +40,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - spring
 #  eureka-server:
 #    image: amigoscode/eureka-server:latest
 #    container_name: eureka-server
